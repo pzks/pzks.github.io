@@ -1,0 +1,242 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>
+    simpost | pengzekai&#39;s Blog
+</title>
+<link rel="shortcut icon" href="https://pzks.github.io/favicon.ico?v=1658374092374">
+<!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
+<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://pzks.github.io/styles/main.css">
+<!-- js -->
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://pzks.github.io/media/js/jquery.sticky-sidebar.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+
+
+</head>
+
+<body>
+    <div class="main">
+        <div class="header">
+    <div class="nav">
+        <div class="logo">
+            <a href="https://pzks.github.io">
+                <img class="avatar" src="https://pzks.github.io/images/avatar.png?v=1658374092374" alt="">
+            </a>
+            <div class="site-title">
+                <h1>
+                    pengzekai&#39;s Blog
+                </h1>
+            </div>
+        </div>
+        <span class="menu-btn fa fa-align-justify"></span>
+        <div class="menu-container">
+            <ul>
+                
+                    
+                            <li>
+                                <a href="/" class="menu">
+                                    首页
+                                </a>
+                            </li>
+                            
+                                
+                    
+                            <li>
+                                <a href="/archives" class="menu">
+                                    归档
+                                </a>
+                            </li>
+                            
+                                
+                    
+                            <li>
+                                <a href="/tags" class="menu">
+                                    标签
+                                </a>
+                            </li>
+                            
+                                
+                    
+                            <li>
+                                <a href="/post/about" class="menu">
+                                    关于
+                                </a>
+                            </li>
+                            
+                                
+                    
+                            <li>
+                                <a href="my_links" class="menu">
+                                    友情链接
+                                </a>
+                            </li>
+                            
+                                
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $(".menu-btn").click(function() {
+            $(".menu-container").slideToggle();
+        });
+        $(window).resize(function() {
+
+            if (window.matchMedia('(min-width: 960px)').matches) {
+                $(".menu-container").css('display', 'block')
+            } else {
+                $(".menu-container").css('display', 'none')
+            }
+
+        });
+    });
+</script>
+
+            <div id="main-content" class="post-container main-container">
+                <div id="content" class="main-container-left">
+                    
+    <div class="i-card">
+        <b>标签：#
+        simpost</b>
+    </div>
+    
+        
+            <article class="post i-card">
+                <h2 class="post-title">
+                    <a href="https://pzks.github.io/post/simpost-kai-fa-ji-lu-xu/">
+                        Simpost 开发记录 [序]
+                    </a>
+                </h2>
+                <div class="post-info">
+                    <time class="post-time">2021-04-30</time>
+                    
+                        <a href="https://pzks.github.io/tag/s5bDCmCzI/" class="post-tag i-tag
+                            i-tag-error">
+            #simpost
+        </a>
+                        
+                </div>
+                <div class="post-article">
+                    
+                        <a href="https://pzks.github.io/post/simpost-kai-fa-ji-lu-xu/" class="post-feature-image" style="background-image:url(https://pzks.github.io/post-images/simpost-kai-fa-ji-lu-xu.png) ">
+                        </a>
+                        
+                            <div class="post-content">
+                                
+                                        <div class="post-content-content">
+                                            首先先来介绍一下，simpost是一个主打轻社区的一个基于话题的本地式文章帖子系统，目标是实现自由定制，轻量化定制且具有自己特色。
+
+想到国内的各大知名论坛系统，&amp;quot;hybbs，dz！，xiuluo，sky，剑鱼，heybbs&amp;quot;等，但是根据长时间的使用来看(主要是因为服务器太菜)，数据库经常丢失，所以就心里产生了一种念头，把数据直接文件形式存储，不就不容易丢失了吗，说干就写，只有c语言和html开发经验的我并没有php的开发经验，虽然感觉php很简单，但是还是边学边写，写了一个小小的框架，前端用zui，受到国外知名的vmf网盘系统的影响，同时也得到了一些启发，也做了几点的功能规划:
+
+帖子系统
+用户系统
+激励机制
+自由定制
+做到simple
+
+
+详细功能规划[部分未实现]
+
+个人中心
+金币系统
+内容系统
+后台管理
+帖子赞赏
+权限组
+自由定制主页
+自由定制帖子
+基于话题和ID
+全站ID标识
+经验等级
+官方认证
+安全保护
+登陆联盟API
+插件中心
+点赞评论
+充值系统
+会员制
+通知中心
+私信
+API中心
+
+
+                                        </div>
+                                        
+                                            <a class="btn btn-text" href="https://pzks.github.io/post/simpost-kai-fa-ji-lu-xu/">Read More ~</a>
+                            </div>
+                </div>
+            </article>
+            
+                <!-- 翻页 -->
+                
+                </div>
+                <!--  -->
+                <div class="main-container-middle"></div>
+                <!--  -->
+                <div id="sidebar" class="main-container-right">
+
+                    <!-- 个人信息 -->
+                    
+    <div class="id_card i-card">
+        <div class="id_card-avatar" style="background-image: url(https://pzks.github.io/images/avatar.png?v=1658374092374)">
+        </div>
+        <h1 class="id_card-title">
+            pengzekai&#39;s Blog
+        </h1>
+        <h2 class="id_card-description">
+            念念不忘，必有回响，
+        </h2>
+        <!--  -->
+        <div class="id_card-sns">
+            <!-- github -->
+            
+                <a href="https://github.com/pzks/" target="_blank" rel="noopener noreferrer"><i
+                class="fa fa-github"></i></a>
+                
+                    <!-- twitter -->
+                    
+                            <!-- weibo -->
+                            
+                                    <!-- facebook -->
+                                    
+
+        </div>
+    </div>
+    
+
+                        <!-- 公告栏 -->
+                        
+
+                </div>
+            </div>
+
+
+
+            <div class="site-footer">
+  Copyright (C) 2021 pengzekai | 
+  <a class="rss" href="https://pzks.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+    <script>
+        $('#sidebar').stickySidebar({
+            topSpacing: 80,
+            // bottomSpacing: 60
+        });
+    </script>
+</body>
+
+</html>
