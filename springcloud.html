@@ -1,0 +1,844 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spring Cloud Comprehensive Review | 中英对照复习资料</title>
+  <style>
+    :root {
+      --ink: #111;
+      --muted: #666;
+      --line: #d9d9d9;
+      --paper: #fff;
+      --soft: #f6f7f7;
+      --cyan: #25bfd3;
+      --cyan-soft: #eaf7f8;
+      --green: #2f9e6f;
+    }
+
+    * {
+      box-sizing: border-box;
+      letter-spacing: 0;
+    }
+
+    body {
+      margin: 0;
+      background: linear-gradient(180deg, #f3f7f8 0%, #fff 220px);
+      color: var(--ink);
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      line-height: 1.42;
+    }
+
+    .page {
+      width: min(1240px, calc(100vw - 24px));
+      margin: 0 auto;
+      padding: 24px 0 42px;
+    }
+
+    header {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 14px;
+      margin-bottom: 12px;
+    }
+
+    .eyebrow {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 6px 0 8px;
+      font-size: clamp(26px, 4vw, 42px);
+      line-height: 1.05;
+      font-weight: 950;
+    }
+
+    .subtitle {
+      max-width: 820px;
+      color: #333;
+      font-size: 14px;
+      font-weight: 650;
+      margin: 0;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,.84);
+      padding: 4px 9px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .pill::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 6px;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 8px 22px rgba(0,0,0,.05);
+      margin-bottom: 14px;
+    }
+
+    nav a {
+      color: var(--ink);
+      text-decoration: none;
+      border-radius: 5px;
+      padding: 4px 8px;
+      font-size: 11px;
+      font-weight: 850;
+    }
+
+    nav a:hover {
+      background: #111;
+      color: #fff;
+    }
+
+    section {
+      margin: 18px 0 24px;
+    }
+
+    h2 {
+      margin: 0 0 8px;
+      font-size: 22px;
+      line-height: 1.15;
+      font-weight: 950;
+    }
+
+    h3 {
+      margin: 14px 0 6px;
+      font-size: 16px;
+      line-height: 1.25;
+      font-weight: 900;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background:
+        radial-gradient(circle at 96% 8%, rgba(37,191,211,.11), transparent 28%),
+        #fff;
+      padding: 10px;
+      box-shadow: 0 8px 18px rgba(0,0,0,.045);
+      break-inside: avoid;
+    }
+
+    .card.important {
+      border-color: #111;
+      box-shadow: 4px 4px 0 #111, 0 8px 18px rgba(0,0,0,.07);
+    }
+
+    .en {
+      color: #111;
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .zh {
+      margin-top: 5px;
+      border-top: 1px dashed #d7d7d7;
+      padding-top: 5px;
+      color: #333;
+      font-size: 12.5px;
+      font-weight: 650;
+    }
+
+    .term {
+      display: inline-block;
+      margin-bottom: 5px;
+      border-radius: 999px;
+      background: #111;
+      color: #fff;
+      padding: 2px 7px;
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 8px 18px rgba(0,0,0,.045);
+      font-size: 12.5px;
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid var(--line);
+      padding: 6px 8px;
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      background: #111;
+      color: #fff;
+      font-size: 11px;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .qa td:first-child {
+      width: 50%;
+      font-weight: 850;
+    }
+
+    .note {
+      border-left: 4px solid var(--cyan);
+      background: var(--cyan-soft);
+      padding: 8px 10px;
+      border-radius: 7px;
+      color: #222;
+      font-weight: 700;
+      font-size: 12.5px;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 26px 1fr;
+      gap: 8px;
+      align-items: start;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      padding: 8px;
+    }
+
+    .num {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #111;
+      color: #fff;
+      font-weight: 950;
+      font-size: 12px;
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    @media (max-width: 980px) {
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .flow {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      nav {
+        position: static;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      nav {
+        display: none;
+      }
+
+      .page {
+        width: auto;
+        padding: 0;
+      }
+
+      header {
+        margin-bottom: 8px;
+      }
+
+      section {
+        margin: 12px 0 16px;
+      }
+
+      h1 {
+        font-size: 26px;
+      }
+
+      h2 {
+        font-size: 18px;
+      }
+
+      h3 {
+        font-size: 14px;
+      }
+
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 6px;
+      }
+
+      .flow {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .card,
+      table {
+        box-shadow: none;
+      }
+
+      .card {
+        padding: 7px;
+      }
+
+      th,
+      td {
+        padding: 4px 5px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <div class="eyebrow">Spring Cloud Comprehensive Review · Bilingual Notes</div>
+      <h1>Spring Cloud 综合复习<br>中英对照版</h1>
+      <p class="subtitle">根据英文复习资料整理：英文原句或英文要点在上，中文解释在下。适合背概念、做选择题、判断题和简答题。</p>
+      <div class="legend">
+        <span class="pill">English first, Chinese second</span>
+        <span class="pill">考试高频点已去重</span>
+        <span class="pill">Chapters 1-9 theory summary</span>
+      </div>
+    </header>
+
+    <nav>
+      <a href="#microservices">Microservices</a>
+      <a href="#springboot">Spring Boot</a>
+      <a href="#springcloud">Spring Cloud</a>
+      <a href="#components">Components</a>
+      <a href="#config">Config</a>
+      <a href="#stream">Stream</a>
+      <a href="#qa">Q&A</a>
+      <a href="#truefalse">True/False</a>
+    </nav>
+
+    <section id="microservices">
+      <h2>1. Microservices Architecture | 微服务架构</h2>
+      <div class="grid">
+        <article class="card important">
+          <span class="term">Definition</span>
+          <div class="en">Microservices architecture structures an application as a collection of loosely coupled, independently deployable small services that communicate over the network.</div>
+          <div class="zh">微服务架构把一个应用拆成多个松耦合、可独立部署的小服务，这些服务通过网络通信协作。</div>
+        </article>
+        <article class="card">
+          <span class="term">Business Capability</span>
+          <div class="en">Each service focuses on a single business capability, runs in its own process, and usually manages its own database.</div>
+          <div class="zh">每个服务专注一个业务能力，运行在独立进程中，通常拥有自己的数据库。</div>
+        </article>
+        <article class="card">
+          <span class="term">Communication</span>
+          <div class="en">Microservices communicate through well-defined APIs, usually lightweight HTTP-based RESTful APIs or asynchronous messaging.</div>
+          <div class="zh">微服务通过清晰定义的 API 通信，常见方式是轻量级 HTTP REST 接口，也可以使用异步消息。</div>
+        </article>
+        <article class="card">
+          <span class="term">Martin Fowler</span>
+          <div class="en">The term “Microservices” is commonly associated with Martin Fowler.</div>
+          <div class="zh">“Microservices” 这个术语常与 Martin Fowler 联系在一起，考试常问是谁提出或推广。</div>
+        </article>
+      </div>
+
+      <h3>Advantages | 优点</h3>
+      <table>
+        <thead>
+          <tr><th>English</th><th>中文</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Independent scalability: each microservice can be scaled independently based on demand.</td>
+            <td>独立扩缩容：每个微服务可以按自己的访问量单独扩容，不必扩整个系统。</td>
+          </tr>
+          <tr>
+            <td>Technology flexibility: different services can use different languages, frameworks, or databases.</td>
+            <td>技术灵活：不同服务可以选不同语言、框架或数据库。</td>
+          </tr>
+          <tr>
+            <td>Faster development and deployment: teams can develop and release services independently.</td>
+            <td>开发部署更快：团队可以独立开发、测试、上线各自服务。</td>
+          </tr>
+          <tr>
+            <td>Fault isolation: failure in one service does not necessarily bring down the whole system.</td>
+            <td>故障隔离：某个服务出问题，不一定拖垮整个系统。</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Challenges | 挑战</h3>
+      <table>
+        <thead>
+          <tr><th>English</th><th>中文</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Network reliability and latency: remote calls introduce latency, partial failure, and network partition problems.</td>
+            <td>网络可靠性与延迟：远程调用会带来延迟、局部失败和网络分区问题。</td>
+          </tr>
+          <tr>
+            <td>Data consistency and distributed transactions: traditional ACID transactions are difficult across multiple services.</td>
+            <td>数据一致性与分布式事务：多个服务多个数据库之间很难直接使用传统 ACID 事务。</td>
+          </tr>
+          <tr>
+            <td>Operational complexity and monitoring: many services require logging, tracing, monitoring, and orchestration.</td>
+            <td>运维复杂度与监控：服务数量变多后，需要日志、链路追踪、监控和部署编排。</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="springboot">
+      <h2>2. Spring Boot | Spring Boot 基础</h2>
+      <div class="grid">
+        <article class="card important">
+          <span class="term">Definition</span>
+          <div class="en">Spring Boot is a framework built on top of the Spring Framework to simplify stand-alone, production-ready Spring application development.</div>
+          <div class="zh">Spring Boot 建立在 Spring Framework 之上，用来简化独立运行、可生产部署的 Spring 应用开发。</div>
+        </article>
+        <article class="card">
+          <span class="term">Convention over Configuration</span>
+          <div class="en">Spring Boot simplifies Spring configuration using convention over configuration and automatic configuration.</div>
+          <div class="zh">Spring Boot 通过“约定优于配置”和自动配置减少繁琐配置。</div>
+        </article>
+        <article class="card">
+          <span class="term">Embedded Server</span>
+          <div class="en">Spring Boot includes embedded Tomcat, Jetty, or Undertow, so no external application server is required.</div>
+          <div class="zh">Spring Boot 内置 Tomcat、Jetty 或 Undertow，不需要额外安装外部应用服务器。</div>
+        </article>
+        <article class="card">
+          <span class="term">Starter Dependencies</span>
+          <div class="en">Starter dependencies such as spring-boot-starter-web simplify Maven or Gradle dependency configuration.</div>
+          <div class="zh">Starter 依赖（如 spring-boot-starter-web）简化 Maven/Gradle 依赖配置，并保证版本兼容。</div>
+        </article>
+      </div>
+
+      <h3>Spring Boot Must-Remember | 必背点</h3>
+      <table class="qa">
+        <thead>
+          <tr><th>English</th><th>中文</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Minimum Java version required by Spring Boot is Java 8.</td><td>Spring Boot 最低要求 Java 8。</td></tr>
+          <tr><td>Spring Boot embeds Tomcat by default.</td><td>Spring Boot 默认内嵌 Tomcat。</td></tr>
+          <tr><td>The main entry point is usually DemoApplication.java.</td><td>主入口文件通常是 DemoApplication.java。</td></tr>
+          <tr><td>Configuration files are usually stored in src/main/resources.</td><td>配置文件通常放在 src/main/resources。</td></tr>
+          <tr><td>Spring Boot supports application.properties and application.yml.</td><td>Spring Boot 支持 application.properties 和 application.yml。</td></tr>
+          <tr><td>@RestController combines @Controller and @ResponseBody.</td><td>@RestController 等于 @Controller + @ResponseBody。</td></tr>
+          <tr><td>@RequestMapping maps a URL path to a controller method.</td><td>@RequestMapping 把 URL 路径映射到控制器方法。</td></tr>
+          <tr><td>Maven with pom.xml is used to manage dependencies.</td><td>Maven 和 pom.xml 用于管理项目依赖。</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="springcloud">
+      <h2>3. Spring Cloud | Spring Cloud 角色</h2>
+      <div class="grid">
+        <article class="card important">
+          <span class="term">Role</span>
+          <div class="en">Spring Cloud provides frameworks and tools built on Spring Boot to simplify microservices-based distributed systems.</div>
+          <div class="zh">Spring Cloud 基于 Spring Boot 提供一组框架和工具，用来简化微服务分布式系统开发。</div>
+        </article>
+        <article class="card">
+          <span class="term">Patterns</span>
+          <div class="en">Spring Cloud handles common patterns such as service discovery, load balancing, circuit breaking, distributed configuration, and inter-service communication.</div>
+          <div class="zh">Spring Cloud 处理服务发现、负载均衡、熔断、分布式配置和服务间通信等常见模式。</div>
+        </article>
+        <article class="card">
+          <span class="term">Foundation</span>
+          <div class="en">Spring Boot is the foundation for building Spring Cloud microservices.</div>
+          <div class="zh">Spring Boot 是构建 Spring Cloud 微服务的基础。</div>
+        </article>
+        <article class="card">
+          <span class="term">Version Naming</span>
+          <div class="en">Spring Cloud versions use London Underground station names, such as Hoxton, Greenwich, and Finchley.</div>
+          <div class="zh">Spring Cloud 版本用伦敦地铁站命名，如 Hoxton、Greenwich、Finchley。</div>
+        </article>
+      </div>
+
+      <div class="note">
+        English: The Spring Cloud version used in this course is Hoxton.SR10.<br>
+        中文：本课程使用的 Spring Cloud 版本是 Hoxton.SR10。
+      </div>
+    </section>
+
+    <section id="components">
+      <h2>4. Core Components | 核心组件</h2>
+      <table>
+        <thead>
+          <tr><th>Component</th><th>English</th><th>中文</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Eureka</strong></td>
+            <td>Used for service registry and discovery in Spring Cloud Netflix.</td>
+            <td>用于服务注册与发现，是 Spring Cloud Netflix 的组件。</td>
+          </tr>
+          <tr>
+            <td><strong>Nacos</strong></td>
+            <td>Nacos is mainly used for service registry, discovery, and configuration management in Spring Cloud Alibaba.</td>
+            <td>Nacos 在 Spring Cloud Alibaba 中主要负责服务注册发现和配置管理。</td>
+          </tr>
+          <tr>
+            <td><strong>Ribbon</strong></td>
+            <td>Ribbon is a client-side load balancing library deployed inside every microservice.</td>
+            <td>Ribbon 是客户端负载均衡组件，部署在每个微服务内部。</td>
+          </tr>
+          <tr>
+            <td><strong>Hystrix</strong></td>
+            <td>Hystrix protects microservices using the Circuit Breaker pattern.</td>
+            <td>Hystrix 使用熔断器模式保护微服务。</td>
+          </tr>
+          <tr>
+            <td><strong>Feign</strong></td>
+            <td>Feign is a declarative web service client; remote calls look like local Java method calls.</td>
+            <td>Feign 是声明式 Web 服务客户端，远程调用看起来像调用本地 Java 方法。</td>
+          </tr>
+          <tr>
+            <td><strong>Gateway</strong></td>
+            <td>Spring Cloud Gateway is the single entry point that routes client requests to microservices.</td>
+            <td>Spring Cloud Gateway 是统一入口，负责把客户端请求路由到各个微服务。</td>
+          </tr>
+          <tr>
+            <td><strong>Config</strong></td>
+            <td>Spring Cloud Config provides centralized distributed configuration.</td>
+            <td>Spring Cloud Config 提供集中式分布式配置管理。</td>
+          </tr>
+          <tr>
+            <td><strong>Stream</strong></td>
+            <td>Spring Cloud Stream builds message-driven microservices using publish-subscribe messaging.</td>
+            <td>Spring Cloud Stream 用发布订阅消息模型构建消息驱动微服务。</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Important Annotations | 重要注解</h3>
+      <table class="qa">
+        <thead>
+          <tr><th>English</th><th>中文</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>@EnableDiscoveryClient activates service registration.</td><td>@EnableDiscoveryClient 开启服务注册。</td></tr>
+          <tr><td>@LoadBalanced enables Ribbon load balancing on a RestTemplate bean.</td><td>@LoadBalanced 让 RestTemplate 支持 Ribbon 客户端负载均衡。</td></tr>
+          <tr><td>@HystrixCommand specifies a fallback method for a failing service call.</td><td>@HystrixCommand 为失败的服务调用指定 fallback 方法。</td></tr>
+          <tr><td>@EnableFeignClients activates Feign client support.</td><td>@EnableFeignClients 开启 Feign 客户端支持。</td></tr>
+          <tr><td>@FeignClient("serviceName") creates a Feign client interface.</td><td>@FeignClient("serviceName") 用于创建 Feign 客户端接口。</td></tr>
+          <tr><td>@RefreshScope allows @Value fields to refresh when configuration changes.</td><td>@RefreshScope 允许配置变化后刷新 @Value 字段。</td></tr>
+          <tr><td>@StreamListener listens to an input message channel.</td><td>@StreamListener 用于监听输入消息通道。</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="config">
+      <h2>5. Configuration and Resilience | 配置与容错</h2>
+      <div class="flow">
+        <div class="step">
+          <div class="num">1</div>
+          <div>
+            <div class="en">bootstrap.yml is loaded before application.yml and usually has higher priority for bootstrap configuration.</div>
+            <div class="zh">bootstrap.yml 会在 application.yml 之前加载，通常用于启动阶段配置，优先级更高。</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="num">2</div>
+          <div>
+            <div class="en">Hot update means configuration changes can take effect without restarting the microservice.</div>
+            <div class="zh">热更新表示配置变更可以在不重启微服务的情况下生效。</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="num">3</div>
+          <div>
+            <div class="en">Hystrix has three circuit breaker states: Closed, Open, and Half-Open.</div>
+            <div class="zh">Hystrix 熔断器有三种状态：关闭、打开、半开。</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="num">4</div>
+          <div>
+            <div class="en">When the circuit breaker is open, Hystrix immediately returns a fallback response without waiting.</div>
+            <div class="zh">当熔断器打开时，Hystrix 不再等待远程调用，而是立即返回 fallback 响应。</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>CAP Theorem | CAP 定理</h3>
+      <article class="card important">
+        <div class="en">According to the CAP theorem, a distributed system can guarantee at most two of Consistency, Availability, and Partition Tolerance at the same time.</div>
+        <div class="zh">根据 CAP 定理，分布式系统在一致性、可用性、分区容错性三者中，最多只能同时保证两个。</div>
+      </article>
+    </section>
+
+    <section id="stream">
+      <h2>6. Spring Cloud Stream | 消息驱动</h2>
+      <div class="grid">
+        <article class="card important">
+          <span class="term">Definition</span>
+          <div class="en">Spring Cloud Stream is a framework for building event-driven, message-driven microservice applications.</div>
+          <div class="zh">Spring Cloud Stream 是用于构建事件驱动、消息驱动微服务应用的框架。</div>
+        </article>
+        <article class="card">
+          <span class="term">Middleware</span>
+          <div class="en">Spring Cloud Stream supports RabbitMQ and Kafka out of the box.</div>
+          <div class="zh">Spring Cloud Stream 默认支持 RabbitMQ 和 Kafka。</div>
+        </article>
+        <article class="card">
+          <span class="term">Abstraction</span>
+          <div class="en">It provides an abstraction over messaging middleware so business code does not directly depend on a specific broker.</div>
+          <div class="zh">它对消息中间件做抽象，让业务代码不直接依赖具体消息系统。</div>
+        </article>
+        <article class="card">
+          <span class="term">Pattern</span>
+          <div class="en">It commonly uses the publish-subscribe pattern for communication.</div>
+          <div class="zh">它常使用发布订阅模式进行通信。</div>
+        </article>
+      </div>
+    </section>
+
+    <section id="qa">
+      <h2>7. Exam Q&A Quick Review | 考试问答速记</h2>
+      <h3>Basic Concepts | 基础概念</h3>
+      <table class="qa">
+        <thead>
+          <tr><th>English Question / Answer</th><th>中文对照</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Who coined the term “Microservices”? Martin Fowler.</td><td>谁创造了“微服务”这个术语？Martin Fowler。</td></tr>
+          <tr><td>How do microservices communicate with each other? Through HTTP-based RESTful APIs.</td><td>微服务之间如何通信？通过基于 HTTP 的 RESTful API。</td></tr>
+          <tr><td>What is one advantage of monolithic architecture? Simple architecture.</td><td>单体架构的一个优点是什么？架构简单。</td></tr>
+          <tr><td>What is one disadvantage of monolithic architecture? High coupling.</td><td>单体架构的一个缺点是什么？高耦合。</td></tr>
+          <tr><td>What are the three core challenges of implementing microservices? Operations complexity, interface consistency, and distributed complexity.</td><td>实现微服务的三个核心挑战是什么？运维复杂性、接口一致性、分布式复杂性。</td></tr>
+          <tr><td>How many features of microservices architecture did Martin Fowler identify? Nine.</td><td>Martin Fowler 总结了多少个微服务架构特征？9 个。</td></tr>
+          <tr><td>Which microservices feature says each service manages its own database? Decentralized Data Management.</td><td>哪个微服务特征表示每个服务管理自己的数据库？分散数据管理。</td></tr>
+          <tr><td>Which Spring Cloud component is used for service registry and discovery? Eureka.</td><td>哪个 Spring Cloud 组件用于服务注册与发现？Eureka。</td></tr>
+          <tr><td>What naming convention does Spring Cloud use for versions? London Underground station names.</td><td>Spring Cloud 版本使用什么命名约定？伦敦地铁站名。</td></tr>
+          <tr><td>Which Spring Cloud version is used in this course? Hoxton.SR10.</td><td>本课程使用的 Spring Cloud 版本是什么？Hoxton.SR10。</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Spring Boot | Spring Boot 问答</h3>
+      <table class="qa">
+        <thead>
+          <tr><th>English Question / Answer</th><th>中文对照</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Which framework is the foundation for building Spring Cloud microservices? Spring Boot.</td><td>构建 Spring Cloud 微服务的基础框架是什么？Spring Boot。</td></tr>
+          <tr><td>What does Spring Boot use instead of boilerplate XML configuration? Automatic configuration.</td><td>Spring Boot 用什么代替样板 XML 配置？自动配置。</td></tr>
+          <tr><td>Which Java version is required as a minimum for Spring Boot? Java 8.</td><td>Spring Boot 最低需要哪个 Java 版本？Java 8。</td></tr>
+          <tr><td>What type of server does Spring Boot embed by default? Tomcat.</td><td>Spring Boot 默认嵌入什么服务器？Tomcat。</td></tr>
+          <tr><td>Which annotation marks a Spring Boot REST controller? @RestController.</td><td>哪个注解用于标记 Spring Boot REST 控制器？@RestController。</td></tr>
+          <tr><td>What is the main entry point file in a Spring Boot project? DemoApplication.java.</td><td>Spring Boot 项目的主入口文件是什么？DemoApplication.java。</td></tr>
+          <tr><td>Which folder holds configuration files in a Spring Boot project? src/main/resources.</td><td>Spring Boot 项目中哪个文件夹存放配置文件？src/main/resources。</td></tr>
+          <tr><td>What does spring-boot-starter-web include? Embedded Tomcat and Spring MVC.</td><td>spring-boot-starter-web 包含什么？嵌入式 Tomcat 和 Spring MVC。</td></tr>
+          <tr><td>Which annotation maps a URL path to a controller method? @RequestMapping.</td><td>哪个注解将 URL 路径映射到控制器方法？@RequestMapping。</td></tr>
+          <tr><td>What tool manages dependencies in a Spring Boot project? Maven with pom.xml.</td><td>Spring Boot 项目中用什么工具管理依赖？Maven 和 pom.xml。</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Core Spring Cloud Concepts | 核心概念</h3>
+      <table class="qa">
+        <thead>
+          <tr><th>English Question / Answer</th><th>中文对照</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>What is the main idea of microservices architecture? Split a large system into small independent services.</td><td>微服务架构核心思想是什么？把大型系统拆成小而独立的服务。</td></tr>
+          <tr><td>Each microservice runs in its own what? Process.</td><td>每个微服务运行在自己的什么中？进程。</td></tr>
+          <tr><td>Which principle describes microservice communication? Smart endpoints and dumb pipes.</td><td>描述微服务通信的原则是什么？智能端点，哑管道。</td></tr>
+          <tr><td>Which principle does Spring Boot use to simplify Spring configuration? Convention over configuration.</td><td>Spring Boot 使用哪个原则简化 Spring 配置？约定优于配置。</td></tr>
+          <tr><td>Which annotation combines @Controller and @ResponseBody? @RestController.</td><td>哪个注解结合了 @Controller 和 @ResponseBody？@RestController。</td></tr>
+          <tr><td>Which Spring class is used to call a remote REST service synchronously? RestTemplate.</td><td>哪个 Spring 类用于同步调用远程 REST 服务？RestTemplate。</td></tr>
+          <tr><td>What is the main job of Nacos in Spring Cloud Alibaba? Service registry and discovery.</td><td>Nacos 在 Spring Cloud Alibaba 中的主要工作是什么？服务注册与发现。</td></tr>
+          <tr><td>Which annotation activates service registration on the main class? @EnableDiscoveryClient.</td><td>哪个注解在主类上激活服务注册？@EnableDiscoveryClient。</td></tr>
+          <tr><td>According to the CAP theorem, how many of the three properties can a distributed system guarantee at most? Two.</td><td>根据 CAP 定理，分布式系统最多能同时保证三个属性中的几个？两个。</td></tr>
+          <tr><td>Where is Ribbon deployed? Inside every microservice, on the client side.</td><td>Ribbon 部署在哪里？每个微服务内部，客户端侧。</td></tr>
+          <tr><td>Which annotation enables Ribbon load balancing on a RestTemplate bean? @LoadBalanced.</td><td>RestTemplate bean 上哪个注解启用 Ribbon 负载均衡？@LoadBalanced。</td></tr>
+          <tr><td>What does Hystrix do when a service keeps failing? It trips and immediately returns an error or fallback.</td><td>当服务持续失败时，Hystrix 会做什么？跳闸并立即返回错误或 fallback。</td></tr>
+          <tr><td>Which annotation specifies a fallback method for a failing service call? @HystrixCommand.</td><td>哪个注解指定失败服务调用的回退方法？@HystrixCommand。</td></tr>
+          <tr><td>What is the default Hystrix timeout? 1000 ms.</td><td>Hystrix 默认超时时间是多少？1000 毫秒。</td></tr>
+          <tr><td>In Feign, a remote service call looks like calling what? A local Java method.</td><td>在 Feign 中，远程服务调用看起来像调用什么？本地 Java 方法。</td></tr>
+          <tr><td>Which annotation enables Feign clients on the main class? @EnableFeignClients.</td><td>哪个注解放在主类上以启用 Feign 客户端？@EnableFeignClients。</td></tr>
+          <tr><td>What is the role of Spring Cloud Gateway? A single entry point that routes requests to services.</td><td>Spring Cloud Gateway 的作用是什么？作为统一入口，将请求路由到服务。</td></tr>
+          <tr><td>Which file loads before application.yml? bootstrap.yml.</td><td>哪个文件先于 application.yml 加载？bootstrap.yml。</td></tr>
+          <tr><td>Which annotation allows @Value fields to refresh when Nacos configuration changes? @RefreshScope.</td><td>哪个注解允许 @Value 字段在 Nacos 配置更改时刷新？@RefreshScope。</td></tr>
+          <tr><td>Which two message brokers does Spring Cloud Stream support out of the box? RabbitMQ and Kafka.</td><td>Spring Cloud Stream 开箱即用支持哪两个消息代理？RabbitMQ 和 Kafka。</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Multiple Choice / Fill-in | 多选与填空</h3>
+      <table class="qa">
+        <thead>
+          <tr><th>English Question / Answer</th><th>中文对照</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>What are characteristics of microservices architecture? Runs in separate processes, communicates via RESTful APIs, and deploys independently.</td><td>微服务架构的特点有哪些？独立进程运行、通过 RESTful API 通信、独立部署。</td></tr>
+          <tr><td>What are advantages of microservices over monolithic architecture? Reduced service coupling, easier independent scaling, and easier bottleneck identification.</td><td>微服务相比单体架构的优势有哪些？降低服务耦合、更容易独立扩展、更容易识别瓶颈。</td></tr>
+          <tr><td>What are the features of microservices identified by Martin Fowler? Decentralized Governance, Design for Failure, and Infrastructure Automation.</td><td>Martin Fowler 确定的微服务架构特征有哪些？分散治理、为失败设计、基础设施自动化。</td></tr>
+          <tr><td>Which components belong to Spring Cloud Netflix? Eureka, Hystrix, and Ribbon.</td><td>属于 Spring Cloud Netflix 的组件有哪些？Eureka、Hystrix、Ribbon。</td></tr>
+          <tr><td>What are Spring Cloud sub-projects? Spring Cloud Config, Spring Cloud Bus, and Spring Cloud Stream.</td><td>Spring Cloud 的子项目有哪些？Spring Cloud Config、Spring Cloud Bus、Spring Cloud Stream。</td></tr>
+          <tr><td>Why does Spring Cloud stand out? Comprehensive solution, community-backed, and easy to adopt for Java developers.</td><td>Spring Cloud 脱颖而出的原因是什么？解决方案全面、社区支持、Java 开发者容易采用。</td></tr>
+          <tr><td>What are valid Spring Cloud release version names? Hoxton, Greenwich, and Finchley.</td><td>有效的 Spring Cloud 发布版本名称有哪些？Hoxton、Greenwich、Finchley。</td></tr>
+          <tr><td>What are benefits of Spring Boot? Automatic configuration, embedded servers, and rapid development with Starter POMs.</td><td>Spring Boot 的好处有哪些？自动配置、嵌入式服务器、通过 Starter POM 快速开发。</td></tr>
+          <tr><td>What are valid Spring Boot Starter POMs? spring-boot-starter-web, spring-boot-starter-test, and spring-boot-devtools.</td><td>有效的 Spring Boot Starter POM 有哪些？spring-boot-starter-web、spring-boot-starter-test、spring-boot-devtools。</td></tr>
+          <tr><td>What are the main directories in a Spring Boot project? src/main/java, src/main/resources, and src/test.</td><td>Spring Boot 项目结构中的主要目录有哪些？src/main/java、src/main/resources、src/test。</td></tr>
+          <tr><td>What annotations are commonly used in Spring Boot REST controllers? @RestController, @RequestMapping, and @SpringBootApplication.</td><td>Spring Boot REST 控制器中常用注解有哪些？@RestController、@RequestMapping、@SpringBootApplication。</td></tr>
+          <tr><td>What configuration file formats does Spring Boot support? application.properties and application.yml.</td><td>Spring Boot 支持哪些配置文件格式？application.properties 和 application.yml。</td></tr>
+          <tr><td>What tools are included in spring-boot-starter-test? JUnit, Hamcrest, and Mockito.</td><td>spring-boot-starter-test 中包含哪些工具？JUnit、Hamcrest、Mockito。</td></tr>
+          <tr><td>What are the steps to create a Spring Boot project in IntelliJ IDEA? Select Spring Initializr, fill Group ID and Artifact ID, and select dependencies like Spring Web.</td><td>在 IntelliJ IDEA 中创建 Spring Boot 项目的步骤是什么？选择 Spring Initializr，填写 Group ID 和 Artifact ID，选择 Spring Web 等依赖。</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="truefalse">
+      <h2>8. True / False Corrections | 判断题纠错</h2>
+      <table>
+        <thead>
+          <tr><th>Statement</th><th>Answer</th><th>中文解释</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Microservices architecture splits a large system into small, independently deployable services.</td>
+            <td><strong>True</strong></td>
+            <td>微服务架构确实是把大系统拆成小型、可独立部署的服务。</td>
+          </tr>
+          <tr>
+            <td>Monolithic architecture has low coupling between modules.</td>
+            <td><strong>False</strong></td>
+            <td>单体架构通常模块耦合较高，不是低耦合。</td>
+          </tr>
+          <tr>
+            <td>Spring Boot replaces the Spring Framework entirely.</td>
+            <td><strong>False</strong></td>
+            <td>Spring Boot 没有替代 Spring，而是在 Spring 之上简化开发。</td>
+          </tr>
+          <tr>
+            <td>Spring Boot requires an external Tomcat server before running an application.</td>
+            <td><strong>False</strong></td>
+            <td>Spring Boot 默认内嵌 Tomcat，不需要外部 Tomcat。</td>
+          </tr>
+          <tr>
+            <td>Services registered in Nacos send periodic heartbeat signals to show they are alive.</td>
+            <td><strong>True</strong></td>
+            <td>注册到 Nacos 的服务会通过心跳表示自己仍然存活。</td>
+          </tr>
+          <tr>
+            <td>The CAP theorem says a distributed system can guarantee C, A, and P all at the same time.</td>
+            <td><strong>False</strong></td>
+            <td>CAP 定理说最多同时保证两项，不是三项都能保证。</td>
+          </tr>
+          <tr>
+            <td>Ribbon is deployed as a standalone server, separate from microservices.</td>
+            <td><strong>False</strong></td>
+            <td>Ribbon 是客户端负载均衡，部署在微服务内部，不是独立服务器。</td>
+          </tr>
+          <tr>
+            <td>Hystrix circuit breaker has three states: Closed, Open, and Half-Open.</td>
+            <td><strong>True</strong></td>
+            <td>Hystrix 熔断器状态包括关闭、打开、半开。</td>
+          </tr>
+          <tr>
+            <td>With Feign, calling a remote service becomes as simple as calling a local Java method.</td>
+            <td><strong>True</strong></td>
+            <td>Feign 的目标就是让远程调用像本地方法调用一样简单。</td>
+          </tr>
+          <tr>
+            <td>Local application.yml has higher priority than Nacos online configuration.</td>
+            <td><strong>True</strong></td>
+            <td>参考中文复习资料：本地 application.yml 具有比 Nacos 在线配置更高的优先级。</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>9. One-Minute Memory Page | 一分钟速背</h2>
+      <div class="grid">
+        <article class="card important">
+          <div class="en">Spring Boot simplifies building stand-alone Spring applications.</div>
+          <div class="zh">Spring Boot 简化独立 Spring 应用开发。</div>
+        </article>
+        <article class="card important">
+          <div class="en">Spring Cloud solves common distributed microservices problems.</div>
+          <div class="zh">Spring Cloud 解决微服务分布式系统的通用问题。</div>
+        </article>
+        <article class="card">
+          <div class="en">Eureka/Nacos handle service registry and discovery.</div>
+          <div class="zh">Eureka/Nacos 负责服务注册与发现。</div>
+        </article>
+        <article class="card">
+          <div class="en">Ribbon handles client-side load balancing.</div>
+          <div class="zh">Ribbon 负责客户端负载均衡。</div>
+        </article>
+        <article class="card">
+          <div class="en">Hystrix handles circuit breaking and fallback.</div>
+          <div class="zh">Hystrix 负责熔断和降级回退。</div>
+        </article>
+        <article class="card">
+          <div class="en">Feign makes remote calls look like local method calls.</div>
+          <div class="zh">Feign 让远程调用像本地方法调用。</div>
+        </article>
+        <article class="card">
+          <div class="en">Gateway is the single entry point for routing requests.</div>
+          <div class="zh">Gateway 是统一入口，用来路由请求。</div>
+        </article>
+        <article class="card">
+          <div class="en">Stream builds message-driven microservices with RabbitMQ or Kafka.</div>
+          <div class="zh">Stream 基于 RabbitMQ 或 Kafka 构建消息驱动微服务。</div>
+        </article>
+      </div>
+    </section>
+
+    <p class="small">Source: Summary_Comprehensive_Review.pdf. This HTML is a bilingual study version, deduplicated and reorganized for exam review.</p>
+  </main>
+</body>
+</html>
